@@ -1,6 +1,11 @@
 package sandbox.engine.rendering;
 
 import sandbox.engine.Manager;
+import sandbox.engine.gui.GUI_Element;
+import sandbox.engine.gui.GUI_Pane;
+import sandbox.engine.rendering.gfx.Font;
+import sandbox.engine.rendering.gfx.PartialSprite;
+import sandbox.engine.rendering.gfx.Sprite;
 import sandbox.engine.utility.RGBConverter;
 
 import java.awt.image.DataBufferInt;
@@ -213,6 +218,20 @@ public class Renderer {
                 }
             }
             currentOff += w;
+        }
+    }
+
+    public void drawGUI(GUI_Pane pane) {
+        int[] paneDimensions = pane.getDimensions();
+        Sprite paneSprite = pane.getSprite();
+        ArrayList<GUI_Element> paneElements = pane.getElements();
+        if (paneSprite != null) {
+            drawSprite(paneSprite, paneDimensions[0], paneDimensions[1], paneDimensions[4]);
+        }
+        for (GUI_Element element : paneElements) {
+            if (element.isActive()) {
+                drawSprite(element.getSprite(), paneDimensions[0] + element.getX(), paneDimensions[1] + element.getY(), paneDimensions[2]);
+            }
         }
     }
 }
